@@ -2,7 +2,7 @@ package rncryptor
 
 import(
   "bytes"
-  "log"
+  "errors"
   "crypto/sha1"
   "crypto/sha256"
   "crypto/hmac"
@@ -11,7 +11,7 @@ import(
   "golang.org/x/crypto/pbkdf2"
 )
 
-func Decrypt(text, password []byte) ([]byte) {
+func Decrypt(text, password []byte) ([]byte, error) {
   version         := text[:1]
   options         := text[1:2]
   encSalt         := text[2:10]
@@ -28,9 +28,7 @@ func Decrypt(text, password []byte) ([]byte) {
   msg = append(msg, iv...)
   msg = append(msg, cipherText...)
 
-
   hmacKey := pbkdf2.Key(password, hmacSalt, 10000, 32, sha1.New)
-
   testHmac := hmac.New(sha256.New, hmacKey)
   testHmac.Write(msg)
   testHmacVal := testHmac.Sum(nil)
@@ -38,17 +36,19 @@ func Decrypt(text, password []byte) ([]byte) {
   verified := bytes.Equal(testHmacVal, expectedHmac)
 
   if !verified {
-    log.Fatal("Password may be incorrect, or the data has been corrupted. (HMAC could not be verified)")
+    return nil, errors.New("Password may be incorrect, or the data has been corrupted. (HMAC could not be verified)")
   }
 
   cipherKey := pbkdf2.Key(password, encSalt, 10000, 32, sha1.New)
   cipherBlock, err := aes.NewCipher(cipherKey)
   if err != nil {
-    log.Fatal(err)
+    return nil, err
   }
 
+  decrypted := make([]byte, len(cipherText))
+  copy(decrypted, cipherText)
   decrypter := cipher.NewCBCDecrypter(cipherBlock, iv)
-  decrypter.CryptBlocks(cipherText, cipherText)
+  decrypter.CryptBlocks(decrypted, decrypted)
 
-  return cipherText
+  return decrypted, nil
 }
