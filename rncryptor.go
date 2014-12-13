@@ -11,7 +11,7 @@ import(
   "golang.org/x/crypto/pbkdf2"
 )
 
-func Decrypt(text, password []byte) ([]byte, error) {
+func Decrypt(password, text []byte) ([]byte, error) {
   version         := text[:1]
   options         := text[1:2]
   encSalt         := text[2:10]
