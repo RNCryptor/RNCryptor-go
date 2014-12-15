@@ -34,7 +34,9 @@ func Decrypt(password string, data []byte) ([]byte, error) {
   testHmac.Write(msg)
   testHmacVal := testHmac.Sum(nil)
 
-  verified := bytes.Equal(testHmacVal, expectedHmac)
+  // its important to use hmac.Equal to not leak time
+  // information. See https://github.com/RNCryptor/RNCryptor-Spec
+  verified := hmac.Equal(testHmacVal, expectedHmac)
 
   if !verified {
     return nil, errors.New("Password may be incorrect, or the data has been corrupted. (HMAC could not be verified)")
