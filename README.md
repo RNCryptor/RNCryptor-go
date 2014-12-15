@@ -3,7 +3,7 @@ RNCryptor-go
 
 Go implementation of [RNCryptor](http://rncryptor.github.io).
 
-### What is RNCryptor?
+#### What is RNCryptor?
 
 > RNCryptor is a data format specificiation for AES encryption, with AES-256, random-salted PBKDF2,
 > AES-CBC, random IV, and HMAC. It has implementations in several languages.
