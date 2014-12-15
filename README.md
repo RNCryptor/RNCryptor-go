@@ -83,6 +83,8 @@ If you'd like to help with any of the items below, send a pull-request!
   of the RNCryptor spec.
 - Lacks [consistent-time equality
   checking](https://github.com/RNCryptor/RNCryptor-Spec/blob/0625abe597e67af4a9a40f460a10bc069b7caf48/RNCryptor-Spec-v3.md#consistent-time-equality-checking).
+- Only provides functions for password-based encryption, lacks function for [key-based
+  encryption](https://github.com/RNCryptor/RNCryptor-Spec/blob/0625abe597e67af4a9a40f460a10bc069b7caf48/RNCryptor-Spec-v3.md#key-based-encryption-abstract-language).
 
 
 ## Contributing
