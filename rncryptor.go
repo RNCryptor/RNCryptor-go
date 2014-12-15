@@ -51,6 +51,7 @@ func Decrypt(password string, data []byte) ([]byte, error) {
   decrypter := cipher.NewCBCDecrypter(cipherBlock, iv)
   decrypter.CryptBlocks(decrypted, decrypted)
 
+  // un-padd decrypted data
   length := len(decrypted)
   unpadding := int(decrypted[length-1])
 
