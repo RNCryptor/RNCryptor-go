@@ -57,7 +57,7 @@ Returns the decrypted data, or an error, if encryption was unsuccessful.
 - Password must be at least 1 character long.
 
 ```go
-encrypted, err := rncryptor.Encrypt("securepassword", []byte("some bytes to encrypt"))
+encrypted, err := rncryptor.Encrypt("securepassword", []byte("bytes to encrypt"))
 if err != nil {
   log.Printf("error encrypting data: %v", err)
 }
@@ -77,7 +77,7 @@ unsuccessful (e.g. password mismatch).
 // if the encrypted data has been encoded, you'll need to decode it first
 // base64.StdEncoding.DecodeString("base64data")
 
-decrypted, err := rncryptor.Decrypt("securepassword", []byte("encrypted bytes here"))
+decrypted, err := rncryptor.Decrypt("securepassword", []byte("encrypted bytes"))
 if err != nil {
   log.Printf("error decrypting data: %v", err)
 }
