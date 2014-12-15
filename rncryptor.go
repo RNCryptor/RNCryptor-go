@@ -11,14 +11,14 @@ import(
   "golang.org/x/crypto/pbkdf2"
 )
 
-func Decrypt(password, text []byte) ([]byte, error) {
-  version         := text[:1]
-  options         := text[1:2]
-  encSalt         := text[2:10]
-  hmacSalt        := text[10:18]
-  iv              := text[18:34]
-  cipherText      := text[34:(len(text)-66+34)]
-  expectedHmac    := text[len(text)-32:len(text)]
+func Decrypt(password string, data []byte) ([]byte, error) {
+  version         := data[:1]
+  options         := data[1:2]
+  encSalt         := data[2:10]
+  hmacSalt        := data[10:18]
+  iv              := data[18:34]
+  cipherText      := data[34:(len(data)-66+34)]
+  expectedHmac    := data[len(data)-32:len(data)]
 
   msg := make([]byte, 0)
   msg = append(msg, version...)
@@ -28,7 +28,7 @@ func Decrypt(password, text []byte) ([]byte, error) {
   msg = append(msg, iv...)
   msg = append(msg, cipherText...)
 
-  hmacKey := pbkdf2.Key(password, hmacSalt, 10000, 32, sha1.New)
+  hmacKey := pbkdf2.Key([]byte(password), hmacSalt, 10000, 32, sha1.New)
   testHmac := hmac.New(sha256.New, hmacKey)
   testHmac.Write(msg)
   testHmacVal := testHmac.Sum(nil)
@@ -39,7 +39,7 @@ func Decrypt(password, text []byte) ([]byte, error) {
     return nil, errors.New("Password may be incorrect, or the data has been corrupted. (HMAC could not be verified)")
   }
 
-  cipherKey := pbkdf2.Key(password, encSalt, 10000, 32, sha1.New)
+  cipherKey := pbkdf2.Key([]byte(password), encSalt, 10000, 32, sha1.New)
   cipherBlock, err := aes.NewCipher(cipherKey)
   if err != nil {
     return nil, err
