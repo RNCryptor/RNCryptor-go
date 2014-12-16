@@ -15,7 +15,7 @@ languages.
 ## Installation
 
 ```sh
-go get github.com/stevenschobert/RNCryptor-go
+go get github.com/RNCryptor/RNCryptor-go
 ```
 
 ## Example
@@ -25,7 +25,7 @@ package main
 
 import(
   "fmt"
-  "github.com/stevenschobert/RNCryptor-go"
+  "github.com/RNCryptor/RNCryptor-go"
 )
 
 func main() {
