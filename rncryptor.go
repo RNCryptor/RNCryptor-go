@@ -19,7 +19,7 @@ func Decrypt(password string, data []byte) ([]byte, error) {
 	hmacSalt := data[10:18]
 	iv := data[18:34]
 	cipherText := data[34:(len(data) - 66 + 34)]
-	expectedHmac := data[len(data)-32 : len(data)]
+	expectedHmac := data[len(data)-32:]
 
 	msg := make([]byte, 0)
 	msg = append(msg, version...)
